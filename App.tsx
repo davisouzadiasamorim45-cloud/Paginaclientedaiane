@@ -10,6 +10,11 @@ const App: React.FC = () => {
   const currentMonth = new Date().toLocaleString('pt-BR', { month: 'long' }).replace(/^\w/, (c) => c.toUpperCase());
 
   useEffect(() => {
+    console.log(
+      "%cPágina criada por Davi Amorim - Tech Evo\nContato: contato@techevo.com.br",
+      "font-size:14px;color:#0f766e;font-weight:bold;"
+    );
+
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
