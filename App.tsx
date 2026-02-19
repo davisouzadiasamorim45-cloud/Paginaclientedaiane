@@ -397,7 +397,7 @@ const App: React.FC = () => {
           <h2 className="text-xl lg:text-xl font-black text-white mb-6 italic uppercase tracking-widest">Ainda tem dúvidas?</h2>
           <p className="text-gray-500 mb-10 uppercase text-[10px] lg:text-[10px] tracking-widest font-bold">A música não pode esperar.</p>
           <a 
-            href="https://wa.me/5521992995676?text=Ol%C3%A1!%20Vim%20pelo%20site%20do%20M%C3%A9todo%20Destrave%20o%20Teclado%20e%20quero%20mais%20informa%C3%A7%C3%B5es%20para%20come%C3%A7ar%20hoje." 
+            href="https://wa.me/5521975919508?text=Ol%C3%A1!%20Vim%20pelo%20site%20do%20M%C3%A9todo%20Destrave%20o%20Teclado%20e%20quero%20mais%20informa%C3%A7%C3%B5es%20para%20come%C3%A7ar%20hoje." 
             className="inline-flex items-center gap-4 bg-[#25D366] text-white font-black py-4 lg:py-4 px-8 lg:px-10 rounded-full shadow-2xl hover:scale-105 transition-all text-xs sm:text-base lg:text-base uppercase tracking-widest"
           >
             Falar com a Daiane no WhatsApp
