@@ -4,6 +4,7 @@ import { PianoIcon, CheckIcon, LockIcon, MusicNoteIcon, PlayIcon, StarIcon, User
 const App: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState({ minutes: 14, seconds: 59 });
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Obter o mês atual em português e capitalizar a primeira letra
   const currentMonth = new Date().toLocaleString('pt-BR', { month: 'long' }).replace(/^\w/, (c) => c.toUpperCase());
@@ -249,14 +250,14 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* Teacher Section (Daiane Corrêa) */}
+      {/* prof Section (Daiane Corrêa) */}
       <section className="py-20 bg-[#0a0a0c] border-y border-white/5">
         <div className="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           <div className="lg:w-1/2 reveal">
             <div className="relative inline-block">
               <div className="absolute -inset-6 bg-gold opacity-10 rounded-full blur-[80px]"></div>
               <img 
-                src="https://ac2ea2de73a29e368bb8ed6c796d0717.cdn.bubble.io/f1771253708723x273256147570501540/ChatGPT%20Image%2016%20de%20fev.%20de%202026%2C%2011_55_23.png?_gl=1*16rfgjr*_gcl_au*ODM1MjQ3NDYyLjE3NzEyNTM1NTQ.*_ga*ODY5NTc0NDAyLjE3NzEyNTM1MTc.*_ga_BFPVR2DEE2*czE3NzEyNTM1MTckbzEkZzEkdDE3NzEyNTM2MDckajU4JGwwJGgw" 
+                src="https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771459451270x349145945180657100/WhatsApp%20Image%202026-02-18%20at%2020.29.31.jpeg?_gl=1*1060rtt*_gcl_au*MTM2MzUxOTc0NS4xNzcwMTM1Njg1*_ga*MjAwMjIwNjE3Ny4xNzU0MzI5MTk0*_ga_BFPVR2DEE2*czE3NzE0NTY2NzYkbzk1JGcxJHQxNzcxNDU5NDIwJGo1OSRsMCRoMA.." 
                 alt="Profª Daiane Corrêa" 
                 className="w-64 h-64 sm:w-80 sm:h-80 lg:w-80 lg:h-80 object-cover rounded-full border-4 border-gold grayscale-0 relative z-10 mx-auto"
               />
@@ -285,32 +286,45 @@ const App: React.FC = () => {
 
       {/* Testimonials */}
       <section className="py-20 bg-[#050505]">
-        <div className="max-w-6xl mx-auto px-4">
+          <div className="max-w-6xl mx-auto px-4">
+    
           <div className="text-center mb-16 reveal">
-            <h2 className="text-3xl lg:text-4xl font-black text-white uppercase">Quem já <span className="text-gold">destravou</span> aprova:</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-6 max-w-5xl mx-auto">
-            {[
-              { name: "Ricardo", role: "Aluno", text: "Em 2 semanas já tirei meu primeiro louvor de ouvido. Incrível!" },
-              { name: "Cláudia", role: "Aluna", text: "Minhas mãos eram muito duras. Os exercícios mudaram meu jogo." },
-              { name: "Marcos", role: "Aluno", text: "O módulo de harmonia era o que faltava para meu som deixar de ser amador." }
-            ].map((test, idx) => (
-              <div key={idx} className="reveal glass p-8 lg:p-8 rounded-[2rem] relative">
-                <div className="flex mb-6 text-gold">
-                  {[...Array(5)].map((_, i) => <StarIcon key={i} className="w-4 h-4" />)}
-                </div>
-                <p className="text-gray-300 italic mb-8 leading-relaxed text-sm lg:text-sm">"{test.text}"</p>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center font-bold text-gold">{test.name[0]}</div>
-                  <div>
-                    <p className="font-black text-white uppercase text-sm">{test.name}</p>
-                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">{test.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+          <h2 className="text-3xl lg:text-4xl font-black text-white uppercase">
+          Quem já <span className="text-gold">destravou</span> aprova:
+          </h2>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      {[
+        {
+          img: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771456960452x643289193142969600/IMG-20260218-WA0067.jpg",
+          alt: "Depoimento 1"
+        },
+        {
+          img: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771456966040x573727296890523140/IMG-20260218-WA0068.jpg",
+          alt: "Depoimento 2"
+        },
+        {
+          img: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771456971154x712544943968936600/IMG-20260218-WA0069.jpg",
+          alt: "Depoimento 3"
+        }
+      ].map((test, idx) => (
+        <div
+            key={idx}
+              onClick={() => setSelectedImage(test.img)}
+              className="reveal glass rounded-[2rem] overflow-hidden group relative cursor-pointer"
+              >
+              <img
+                src={test.img}
+                alt={test.alt}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition duration-500" />
+            </div>
+      ))}
+    </div>
+
+  </div>
       </section>
 
       {/* The Offer Section */}
@@ -338,7 +352,7 @@ const App: React.FC = () => {
             </div>
 
             <a 
-              href="https://www.yampi.com.br/app-yampi"
+              href="https://pay.kiwify.com.br/H0I5Sq4"
               className="w-full max-w-sm mx-auto bg-gold hover:bg-white text-black font-black py-4 lg:py-5 rounded-full text-lg lg:text-xl transition-all duration-500 shadow-[0_0_50px_rgba(212,175,55,0.3)] uppercase mb-10 group overflow-hidden relative block no-underline text-center"
             >
               <span className="relative z-10">Quero Começar Agora!</span>
@@ -410,7 +424,7 @@ const App: React.FC = () => {
           <h2 className="text-xl lg:text-xl font-black text-white mb-6 italic uppercase tracking-widest">Ainda tem dúvidas?</h2>
           <p className="text-gray-500 mb-10 uppercase text-[10px] lg:text-[10px] tracking-widest font-bold">A música não pode esperar.</p>
           <a 
-            href="https://wa.me/seunumerowhatsapp" 
+            href="https://wa.me/5521992995676?text=Ol%C3%A1!%20Vim%20pelo%20site%20do%20M%C3%A9todo%20Destrave%20o%20Teclado%20e%20quero%20mais%20informa%C3%A7%C3%B5es%20para%20come%C3%A7ar%20hoje." 
             className="inline-flex items-center gap-4 bg-[#25D366] text-white font-black py-4 lg:py-4 px-8 lg:px-10 rounded-full shadow-2xl hover:scale-105 transition-all text-xs sm:text-base lg:text-base uppercase tracking-widest"
           >
             Falar com a Daiane no WhatsApp
@@ -432,6 +446,31 @@ const App: React.FC = () => {
           </p>
         </div>
       </footer>
+      {selectedImage && (
+  <div
+    className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    onClick={() => setSelectedImage(null)}
+  >
+    <div
+      className="relative max-w-4xl w-full"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <img
+        src={selectedImage}
+        alt="Depoimento ampliado"
+        className="w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl"
+      />
+
+      <button
+        onClick={() => setSelectedImage(null)}
+        className="absolute -top-4 -right-4 bg-white text-black w-10 h-10 rounded-full font-bold shadow-lg hover:scale-110 transition"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
