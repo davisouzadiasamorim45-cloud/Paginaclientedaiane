@@ -4,7 +4,7 @@ import { PianoIcon, CheckIcon, LockIcon, MusicNoteIcon, PlayIcon, StarIcon, User
 const App: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState({ minutes: 14, seconds: 59 });
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<{ type: "image" | "video"; src: string } | null>(null);
 
   // Obter o mês atual em português e capitalizar a primeira letra
   const currentMonth = new Date().toLocaleString('pt-BR', { month: 'long' }).replace(/^\w/, (c) => c.toUpperCase());
@@ -285,47 +285,20 @@ const App: React.FC = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-[#050505]">
-          <div className="max-w-6xl mx-auto px-4">
-    
-          <div className="text-center mb-16 reveal">
-          <h2 className="text-3xl lg:text-4xl font-black text-white uppercase">
-          Quem já <span className="text-gold">destravou</span> aprova:
-          </h2>
+<section className="py-20 bg-[#050505] overflow-hidden">
+  <div className="max-w-6xl mx-auto px-4">
+
+    <div className="text-center mb-16 reveal">
+      <h2 className="text-3xl lg:text-4xl font-black text-white uppercase">
+        Quem já <span className="text-gold">destravou</span> aprova:
+      </h2>
     </div>
 
-    <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-      {[
-        {
-          img: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771456960452x643289193142969600/IMG-20260218-WA0067.jpg",
-          alt: "Depoimento 1"
-        },
-        {
-          img: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771456966040x573727296890523140/IMG-20260218-WA0068.jpg",
-          alt: "Depoimento 2"
-        },
-        {
-          img: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771456971154x712544943968936600/IMG-20260218-WA0069.jpg",
-          alt: "Depoimento 3"
-        }
-      ].map((test, idx) => (
-        <div
-            key={idx}
-              onClick={() => setSelectedImage(test.img)}
-              className="reveal glass rounded-[2rem] overflow-hidden group relative cursor-pointer"
-              >
-              <img
-                src={test.img}
-                alt={test.alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition duration-500" />
-            </div>
-      ))}
-    </div>
+    <TestimonialCarousel setSelectedImage={setSelectedImage} />
 
   </div>
-      </section>
+</section>
+
 
       {/* The Offer Section */}
       <section id="offer" className="py-20 bg-[#050505] relative overflow-hidden">
@@ -448,18 +421,27 @@ const App: React.FC = () => {
       </footer>
       {selectedImage && (
   <div
-    className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4"
     onClick={() => setSelectedImage(null)}
   >
     <div
       className="relative max-w-4xl w-full"
       onClick={(e) => e.stopPropagation()}
     >
-      <img
-        src={selectedImage}
-        alt="Depoimento ampliado"
-        className="w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl"
-      />
+      {selectedImage.type === "video" ? (
+        <video
+          src={selectedImage.src}
+          controls
+          autoPlay
+          className="w-full max-h-[90vh] rounded-2xl shadow-2xl"
+        />
+      ) : (
+        <img
+          src={selectedImage.src}
+          alt="Depoimento ampliado"
+          className="w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl"
+        />
+      )}
 
       <button
         onClick={() => setSelectedImage(null)}
@@ -474,5 +456,113 @@ const App: React.FC = () => {
     </div>
   );
 };
+
+interface CarouselProps {
+  setSelectedImage: (media: { type: "image" | "video"; src: string } | null) => void;
+}
+
+const TestimonialCarousel: React.FC<CarouselProps> = ({ setSelectedImage }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const testimonials: { type: "image" | "video"; src: string }[] = [
+    {
+      type: "video",
+      src: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771469967314x469122239150563400/WhatsApp%20Video%202026-02-18%20at%2023.23.36.mp4"
+    },
+    {
+      type: "image",
+      src: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771469973895x856886521966829300/WhatsApp%20Image%202026-02-18%20at%2023.17.35.jpeg"
+    },
+    {
+      type: "image",
+      src: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771469978245x495898411482096800/WhatsApp%20Image%202026-02-18%20at%2023.17.36.jpeg"
+    },
+    {
+      type: "image",
+      src: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771469995056x574195269163083140/WhatsApp%20Image%202026-02-18%20at%2023.17.36%20%281%29.jpeg"
+    },
+    {
+      type: "image",
+      src: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771470000132x818023684434960400/WhatsApp%20Image%202026-02-18%20at%2023.17.38.jpeg"
+    },
+    {
+      type: "image",
+      src: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771470004718x354296630320439100/WhatsApp%20Image%202026-02-18%20at%2023.17.37%20%281%29.jpeg"
+    },
+    {
+      type: "image",
+      src: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771470008563x513310201521079550/WhatsApp%20Image%202026-02-18%20at%2023.17.37.jpeg"
+    },
+    {
+      type: "image",
+      src: "https://f29110a8fda2ae3c6dd5d821c0100090.cdn.bubble.io/f1771470015374x407947825324288060/WhatsApp%20Image%202026-02-18%20at%2023.17.36%20%282%29.jpeg"
+    }
+  ];
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.offsetWidth * 0.8;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  return (
+    <div className="relative">
+
+      {/* Botão esquerda */}
+      <button
+        onClick={() => scroll("left")}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/60 hover:bg-gold text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all shadow-lg"
+      >
+        ‹
+      </button>
+
+      <div
+        ref={scrollRef}
+        className="flex gap-8 overflow-x-auto scroll-smooth px-14 no-scrollbar"
+      >
+        {testimonials.map((item, idx) => (
+          <div
+            key={idx}
+            onClick={() => setSelectedImage(item)}
+            className="min-w-[250px] sm:min-w-[250px] md:min-w-[250px] lg:min-w-[250px] glass rounded-[2rem] overflow-hidden group cursor-pointer relative transition-transform duration-500 hover:scale-20"
+          >
+            {item.type === "video" ? (
+              <>
+                <video
+                  src={item.src}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+                    ▶
+                  </div>
+                </div>
+              </>
+            ) : (
+              <img
+                src={item.src}
+                alt={`Depoimento ${idx + 1}`}
+                className="w-full h-full object-cover"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Botão direita */}
+      <button
+        onClick={() => scroll("right")}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/60 hover:bg-gold text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all shadow-lg"
+      >
+        ›
+      </button>
+    </div>
+  );
+};
+
 
 export default App;
